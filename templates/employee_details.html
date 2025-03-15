@@ -193,7 +193,7 @@
     <script>
 
         const pathSegments = window.location.pathname.split('/');
-        const employeeId = pathSegments[pathSegments.length - 2]; // Gets the second-to-last segment
+        const employeeId = pathSegments[pathSegments.length - 2]; 
 
         fetch(`/employees/${employeeId}`)
             .then(response => response.json())
@@ -304,13 +304,13 @@
             try {
                 const response = await fetch(`/employees/${employeeId}`, {
                     method: "PUT",
-                    body: formData, // Let the browser set the correct Content-Type
+                    body: formData, 
                 });
 
                 if (response.ok) {
                     alert("Employee edited successfully!");
                     modal.style.display = "none";
-                    location.reload(); // Reload the page to update the table
+                    location.reload(); 
                 } else {
                     throw new Error("Failed to edit employee.");
                 }

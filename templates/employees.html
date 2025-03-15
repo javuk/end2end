@@ -272,18 +272,18 @@ let defaultPic = "/static/images/placeholder.avif";
     let contract_type = document.getElementById("contract_type");
     let contract_duration = document.getElementById("contract_duration");
 
-    // Event listener for contract_duration input
+    
     contract_duration.addEventListener("input", function () {
         if (parseInt(contract_duration.value) !== 0) {
             contract_type.value = "Određeno";
-            contract_type.disabled = false;  // Ensure contract_type is enabled when duration is not zero
+            contract_type.disabled = false;
         } else {
             contract_type.value = "Neodređeno";
             contract_type.disabled = true;
         }
     });
 
-    // Event listener for contract_type input
+    
     contract_type.addEventListener("input", function () {
         if (contract_type.value === "Neodređeno") {
             contract_duration.value = 0;
