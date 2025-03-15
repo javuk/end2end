@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalji zaposlenika</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Modal Structure -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2>Dodaj zaposlenika</h2>
+            <form id="employeeForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="first_name">Ime:</label>
+                    <input type="text" id="first_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">Prezime:</label>
+                    <input type="text" id="last_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Spol:</label>
+                    <select id="gender" required>
+                        <option value="" disabled selected>Odaberite spol</option>
+                        <option value="Male">Muški</option>
+                        <option value="Female">Ženski</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="birth_year">Godina rođenja:</label>
+                    <input type="number" id="birth_year" min="1940" max="2005" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="start_date">Početak rada:</label>
+                    <input type="date" id="start_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contract_type">Tip ugovora:</label>
+                    <select id="contract_type" required>
+                        <option value="" disabled selected>Određeno / Neodređeno</option>
+                        <option value="Određeno">Određeno</option>
+                        <option value="Neodređno">Neodređeno</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="contract_duration">Trajanje ugovora (u godinama):</label>
+                    <input type="number" id="contract_duration" min="1" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Odjel:</label>
+                    <input type="text" id="department" placeholder="npr. Prodaja, IT, Marketing..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="annual_leave_days">Broj dana godišnjeg odmora:</label>
+                    <input type="number" id="annual_leave_days" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="free_days">Broj slobodnih dana:</label>
+                    <input type="number" id="free_days" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="paid_leave_days">Broj dana plaćenog odmora:</label>
+                    <input type="number" id="paid_leave_days" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="image_path" class="form-label">Choose Image</label>
+                    <input type="file" class="form-control" id="image_path" name="image" accept="image/*">
+                    <div class="form-text">Select an image file to upload (JPG, PNG, GIF)</div>
+                </div>
+
+                <!-- Preview area for the selected image -->
+                <div class="form-group">
+                    <div id="imagePreview" class="form-group" style="display: none;">
+                        <p>Preview:</p>
+                        <img id="preview" class="avatar" alt="Image Preview">
+                    </div>
+                </div>
+
+
+                <div class="form-group full-width">
+                    <button type="submit">Dodaj zaposlenika</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <section class="vh-100" style="background-color: #f4f5f7;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-6 mb-4 mb-lg-0">
+                    <div class="card mb-3" style="border-radius: .5rem;">
+                        <div class="row g-0">
+                            <div class="col-md-4 gradient-custom text-center text-white"
+                                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                <img id="employeeImage" class="avatar-large" alt="Avatar" />
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body p-4">
+                                    <h6>Osobni podaci</h6>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-6 mb-3">
+                                            <h6>Ime i prezime</h6>
+                                            <p class="text-muted" id="employeeName"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Spol</h6>
+                                            <p class="text-muted" id="employeeGender"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Datum rođenja</h6>
+                                            <p class="text-muted" id="employeeBirthYear"></p>
+                                        </div>
+                                    </div>
+                                    <h6>Poslovni podaci</h6>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-6 mb-3">
+                                            <h6>Odjel</h6>
+                                            <p class="text-muted" id="employeeDepartmentDetails"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Tip ugovora</h6>
+                                            <p class="text-muted" id="employeeContractType"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Datum početka</h6>
+                                            <p class="text-muted" id="employeeStartDate"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Trajanje ugovora</h6>
+                                            <p class="text-muted" id="employeeContractDuration"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Broj dana godišnjeg odmora</h6>
+                                            <p class="text-muted" id="employeeAnnualLeaveDays"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Broj slobodnih dana</h6>
+                                            <p class="text-muted" id="employeeFreeDays"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Broj dana plaćenog dopusta</h6>
+                                            <p class="text-muted" id="employeePaidLeaveDays"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="row">
+                            <div class="col-4">
+                                <button onclick="goBack()" id="goBackBtn"
+                                    class="btn btn-primary me-2 w-100 addEmployeeBtn">Natrag</button>
+                            </div>
+                            <div class="col-4">
+                                <button id="editEmployeeBtn"
+                                    class="btn btn-secondary me-2 w-100 addEmployeeBtn">Uredi</button>
+                            </div>
+                            <div class="col-4">
+                                <button onclick="deleteEmployee()"
+                                    class="btn btn-danger delete-btn w-100 addEmployeeBtn">Obriši</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+
+        const pathSegments = window.location.pathname.split('/');
+        const employeeId = pathSegments[pathSegments.length - 2]; // Gets the second-to-last segment
+
+        fetch(`/employees/${employeeId}`)
+            .then(response => response.json())
+            .then(employee => {
+                document.getElementById('employeeImage').src = employee.image_path;
+                document.getElementById('employeeName').innerText = `${employee.first_name} ${employee.last_name}`;
+                document.getElementById('employeeGender').innerText = employee.gender;
+                document.getElementById('employeeBirthYear').innerText = employee.birth_year;
+                document.getElementById('employeeContractType').innerText = employee.contract_type;
+                document.getElementById('employeeStartDate').innerText = employee.start_date;
+                document.getElementById('employeeContractDuration').innerText = employee.contract_duration;
+                document.getElementById('employeeAnnualLeaveDays').innerText = employee.annual_leave_days;
+                document.getElementById('employeeFreeDays').innerText = employee.free_days;
+                document.getElementById('employeePaidLeaveDays').innerText = employee.paid_leave_days;
+                document.getElementById('employeeDepartmentDetails').innerText = employee.department;
+            });
+
+        function goBack() {
+            window.history.back()
+        }
+
+        function deleteEmployee() {
+            if (confirm("Jeste li sigurni da želite obrisati ovog zaposlenika?")) {
+                fetch(`/employees/${employeeId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Zaposlenik uspješno obrisan!");
+                            window.location.href = '/';
+                        } else {
+                            alert("Brisanje nije uspjelo.");
+                        }
+                    });
+            }
+        }
+
+        // Modal logic for opening and closing
+        const modal = document.getElementById("employeeModal");
+        const editEmployeeBtn = document.getElementById("editEmployeeBtn");
+        const closeBtn = document.getElementById("close-btn");
+
+        // Open modal when clicking "Edit Employee"
+        editEmployeeBtn.onclick = () => {
+            modal.style.display = "block";
+
+            fetch(`/employees/${employeeId}`)
+                .then(response => response.json())
+                .then(employee => {
+                    document.getElementById("first_name").value = employee.first_name;
+                    document.getElementById("last_name").value = employee.last_name;
+                    document.getElementById("gender").value = employee.gender;
+                    document.getElementById("birth_year").value = employee.birth_year;
+                    document.getElementById("contract_type").value = employee.contract_type;
+                    document.getElementById("contract_duration").value = employee.contract_duration;
+                    document.getElementById("department").value = employee.department;
+                    document.getElementById("annual_leave_days").value = employee.annual_leave_days;
+                    document.getElementById("free_days").value = employee.free_days;
+                    document.getElementById("paid_leave_days").value = employee.paid_leave_days;
+                    document.getElementById("image_path").value = employee.image_path;
+
+                    // Handle start_date properly
+                    const startDate = new Date(employee.start_date).toISOString; // Should parse correctly
+                    const year = startDate.getFullYear();
+                    const month = String(startDate.getMonth() + 1).padStart(2, '0'); // getMonth is zero-indexed, so adding 1
+                    const day = String(startDate.getDate()).padStart(2, '0');
+
+                    const formattedDate = `${year}-${month}-${day}`; // Correct format 'YYYY-MM-DD'
+                    console.log(formattedDate); // Log formatted date for debugging
+
+                    // Set the value for start_date input field
+                    const startDateInput = document.getElementById("start_date");
+                    if (startDateInput) {
+                        startDateInput.value = formattedDate; // Setting the value in the correct format
+                    }
+                });
+        }
+
+        // Close modal when clicking the close button
+        closeBtn.onclick = () => modal.style.display = "none";
+
+        // Close modal when clicking outside of it
+        window.onclick = (e) => {
+            if (e.target === modal) modal.style.display = "none";
+        }
+
+        // Handle the form submission to edit an employee
+        document.getElementById("employeeForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append("first_name", document.getElementById("first_name").value);
+            formData.append("last_name", document.getElementById("last_name").value);
+            formData.append("gender", document.getElementById("gender").value);
+            formData.append("birth_year", document.getElementById("birth_year").value);
+            formData.append("start_date", document.getElementById("start_date").value);
+            formData.append("contract_type", document.getElementById("contract_type").value);
+            formData.append("contract_duration", document.getElementById("contract_duration").value);
+            formData.append("department", document.getElementById("department").value);
+            formData.append("annual_leave_days", document.getElementById("annual_leave_days").value);
+            formData.append("free_days", document.getElementById("free_days").value);
+            formData.append("paid_leave_days", document.getElementById("paid_leave_days").value);
+
+            // Adding the image if present
+            const imageFile = document.getElementById("image_path").files[0];
+            if (imageFile) {
+                formData.append("image_path", imageFile);
+            }
+
+            try {
+                const response = await fetch(`/employees/${employeeId}`, {
+                    method: "PUT",
+                    body: formData, // Let the browser set the correct Content-Type
+                });
+
+                if (response.ok) {
+                    alert("Employee edited successfully!");
+                    modal.style.display = "none";
+                    location.reload(); // Reload the page to update the table
+                } else {
+                    throw new Error("Failed to edit employee.");
+                }
+            } catch (error) {
+                console.error("Error editing employee:", error);
+                alert("Failed to edit employee.");
+            }
+        });
+
+
+        // Show image preview when file is selected
+        document.getElementById('image_path').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const preview = document.getElementById('preview');
+                    preview.src = e.target.result;
+
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Image preview
+            document.getElementById('image_path').addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const preview = document.getElementById('preview');
+                        preview.src = e.target.result;
+
+                        document.getElementById('imagePreview').style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            let contract_type = document.getElementById("contract_type");
+            let contract_duration = document.getElementById("contract_duration");
+
+        
+            contract_duration.addEventListener("input", function () {
+                const duration = parseInt(contract_duration.value);
+                if (duration !== 0) {
+                    contract_type.value = "Određeno";
+                    contract_type.disabled = false;  
+                } else {
+                    contract_type.value = "Neodređeno";
+                    contract_type.disabled = true;
+                }
+            });
+
+            
+            contract_type.addEventListener("input", function () {
+                if (contract_type.value === "Neodređeno") {
+                    contract_duration.value = 0;
+                    contract_duration.disabled = true;
+                } else {
+                    contract_duration.disabled = false;
+                }
+            });
+        });
+
+
+
+    </script>
+</body>
+
+</html>
