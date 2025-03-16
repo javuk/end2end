@@ -1,1 +1,1 @@
-web: ./end2endTask
+web: ./main
