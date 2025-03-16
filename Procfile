@@ -1,1 +1,1 @@
-web: go run main.go database.go models.go emplyee.go
+web: go run main.go
