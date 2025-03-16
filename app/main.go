@@ -7,11 +7,13 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/javuk/end2end/pkg"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	initDB()
+	pkg.InitDB()
 
 	r := gin.Default()
 
@@ -25,11 +27,11 @@ func main() {
 	r.GET("/", serveEmployeesPage)
 	r.GET("/employees/:id/details", serveEmployeeDetailsPage)
 
-	r.GET("/employees", getEmployees)
-	r.POST("/employees", addNewEmployee)
-	r.GET("/employees/:id", getEmployeeByID)
-	r.DELETE("/employees/:id", deleteEmployee)
-	r.PUT("/employees/:id", updateEmployee)
+	r.GET("/employees", pkg.GetEmployees)
+	r.POST("/employees", pkg.AddNewEmployee)
+	r.GET("/employees/:id", pkg.GetEmployeeByID)
+	r.DELETE("/employees/:id", pkg.DeleteEmployee)
+	r.PUT("/employees/:id", pkg.UpdateEmployee)
 
 	r.Use(func(c *gin.Context) {
 		if len(c.Request.URL.Path) >= 8 && c.Request.URL.Path[:8] == "/static/" {

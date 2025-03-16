@@ -1,4 +1,4 @@
-package main
+package pkg
 
 type Employee struct {
 	ID               int    `db:"id" json:"id"`

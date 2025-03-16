@@ -1,4 +1,4 @@
-package main
+package pkg
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 
 var db *sqlx.DB
 
-func initDB() {
+func InitDB() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")

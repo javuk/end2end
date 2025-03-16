@@ -1,4 +1,4 @@
-module end2endTask
+module github.com/javuk/end2end
 
 go 1.24.1
 

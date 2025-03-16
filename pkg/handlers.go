@@ -1,4 +1,4 @@
-package main
+package pkg
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 )
 
 // GET all employees
-func getEmployees(c *gin.Context) {
+func GetEmployees(c *gin.Context) {
 	var employees []Employee
 	err := db.Select(&employees, "SELECT * FROM employees")
 	if err != nil {
@@ -21,7 +21,7 @@ func getEmployees(c *gin.Context) {
 }
 
 // GET one specific emplayee
-func getEmployeeByID(c *gin.Context) {
+func GetEmployeeByID(c *gin.Context) {
 	id := c.Param("id")
 	var employee Employee
 	err := db.Get(&employee, "SELECT * FROM employees WHERE id = $1", id)
@@ -33,7 +33,7 @@ func getEmployeeByID(c *gin.Context) {
 }
 
 // POST add new employee
-func addNewEmployee(c *gin.Context) {
+func AddNewEmployee(c *gin.Context) {
 	newEmployee := Employee{
 		FirstName:        c.PostForm("first_name"),
 		LastName:         c.PostForm("last_name"),
@@ -85,7 +85,7 @@ func addNewEmployee(c *gin.Context) {
 }
 
 // PUT an employee
-func updateEmployee(c *gin.Context) {
+func UpdateEmployee(c *gin.Context) {
 	// Get the employee ID from URL parameters
 	id := c.Param("id")
 
@@ -171,7 +171,7 @@ func updateEmployee(c *gin.Context) {
 }
 
 // DELETE an employee
-func deleteEmployee(c *gin.Context) {
+func DeleteEmployee(c *gin.Context) {
 	id := c.Param("id")
 	query := `DELETE FROM employees WHERE id = $1`
 
