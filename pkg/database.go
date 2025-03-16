@@ -6,27 +6,24 @@ import (
 	"os"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var db *sqlx.DB
 
 func InitDB() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
+	// Get DATABASE_URL from Heroku environment variables
 	dsn := os.Getenv("DATABASE_URL")
 	if dsn == "" {
 		log.Fatal("DATABASE_URL environment variable is not set")
 	}
 
-	var errDB error
-	db, errDB = sqlx.Connect("postgres", dsn)
-	if errDB != nil {
-		log.Fatal(errDB)
+	dsn += "?sslmode=require"
+
+	var err error
+	db, err = sqlx.Connect("postgres", dsn)
+	if err != nil {
+		log.Fatal("Error connecting to the database:", err)
 	}
 
 	fmt.Println("Connected to the database")
