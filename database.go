@@ -18,14 +18,10 @@ func initDB() {
 		log.Fatal("Error loading .env file")
 	}
 
-	dsn := fmt.Sprintf(
-		"postgres://%s:%s@%s:%s/%s?sslmode=require",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_NAME"),
-	)
+	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
+		log.Fatal("DATABASE_URL environment variable is not set")
+	}
 
 	var errDB error
 	db, errDB = sqlx.Connect("postgres", dsn)
