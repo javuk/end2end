@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -38,10 +39,7 @@ func main() {
 	})
 
 	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080" // default to 8080 if PORT is not set
-	}
-
+	log.Fatal(http.ListenAndServe(":"+port, r))
 	r.Run(":" + port) // Listen on the specified port
 }
 
