@@ -1,1 +1,1 @@
-web: go run app/main.go
+web: ./end2endTask
