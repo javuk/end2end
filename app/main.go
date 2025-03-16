@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -40,8 +41,9 @@ func main() {
 	})
 
 	port := os.Getenv("PORT")
+
 	if port == "" {
-		port = "3002"
+		log.Fatal("$PORT must be set")
 	}
 	r.Run(":" + port) // Listen on the specified port
 }
