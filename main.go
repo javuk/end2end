@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
@@ -36,7 +37,12 @@ func main() {
 		c.Next()
 	})
 
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // default to 8080 if PORT is not set
+	}
+
+	r.Run(":" + port) // Listen on the specified port
 }
 
 func serveEmployeesPage(c *gin.Context) {
