@@ -41,7 +41,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Default port if running locally
+		port = "3002"
 	}
 	r.Run(":" + port) // Listen on the specified port
 }
